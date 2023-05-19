@@ -1,0 +1,32 @@
+[
+  {
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@gmail.com",
+    "joinedOn": "2020/01/01"
+  },
+  {
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "email": "jane.smith@yahoo.com",
+    "joinedOn": "2019/06/15"
+  },
+  {
+    "firstName": "David",
+    "lastName": "Johnson",
+    "email": "david.johnson@hotmail.com",
+    "joinedOn": "2021/03/10"
+  },
+  {
+    "firstName": "Sarah",
+    "lastName": "Williams",
+    "email": "sarah.williams@gmail.com",
+    "joinedOn": "2018/11/30"
+  },
+  {
+    "firstName": "Michael",
+    "lastName": "Brown",
+    "email": "michael.brown@gmail.com",
+    "joinedOn": "2022/02/18"
+  }
+]
