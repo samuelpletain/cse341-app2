@@ -11,6 +11,10 @@
   },
   "author": "Samuel Pletain",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/samuelpletain/cse341-app2.git"
+  },
   "devDependencies": {
     "@types/express": "^4.17.17",
     "@types/node": "^20.1.4",
