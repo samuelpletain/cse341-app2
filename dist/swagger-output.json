@@ -5,7 +5,7 @@
     "description": "The Social Media API is a RESTful API that allows users to interact with a social media platform. It provides endpoints for creating, retrieving, updating, and deleting posts and authors.",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "https://cse341-app2.onrender.com",
   "basePath": "/",
   "schemes": [
     "https",
