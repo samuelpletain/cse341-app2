@@ -72,6 +72,16 @@ const getPostById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 });
 const createPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // #swagger.summary = "This endpoint creates a post."
+    /*  #swagger.parameters['newPost'] = {
+                  in: 'body',
+                  description: 'An object representing a new post',
+                  required: true,
+                  schema: {
+                    $content: 'Jhon Doe',
+                    $authorId: '6465a918462368509b563b23',
+                    tags: ["Technology", "Innovation", "Programming"]
+                  }
+          } */
     try {
         const post = new posts_1.default({
             content: req.body.content,

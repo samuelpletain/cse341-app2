@@ -1,0 +1,420 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Social Media API",
+    "description": "The Social Media API is a RESTful API that allows users to interact with a social media platform. It provides endpoints for creating, retrieving, updating, and deleting posts and authors.",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/posts": {
+      "get": {
+        "summary": "This endpoint returns a list of all the posts in the database.",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns an array of post objects.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Post"
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "An error occured."
+          }
+        }
+      },
+      "post": {
+        "summary": "This endpoint creates a post.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "newPost",
+            "in": "body",
+            "description": "An object representing a new post",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "content": {
+                  "type": "string",
+                  "example": "Jhon Doe"
+                },
+                "authorId": {
+                  "type": "string",
+                  "example": "6465a918462368509b563b23"
+                },
+                "tags": {
+                  "type": "array",
+                  "example": [
+                    "Technology",
+                    "Innovation",
+                    "Programming"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "content",
+                "authorId"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Returns an object containing the result of the request and a string representing a MongoDB ObjectId.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "acknowledged": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "insertedId": {
+                  "type": "string",
+                  "example": "643f75ca2cec8ebd2a3cc16c"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "An error occured."
+          }
+        }
+      }
+    },
+    "/posts/{postId}": {
+      "get": {
+        "summary": "This endpoint returns the details of a single post.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "A MongoDB ObjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a post object.",
+            "schema": {
+              "$ref": "#/definitions/Post"
+            }
+          },
+          "400": {
+            "description": "An invalid MongoDB ObjectId was provided."
+          },
+          "500": {
+            "description": "An error occured."
+          }
+        }
+      },
+      "put": {
+        "summary": "This endpoint updates the content of a single post.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "A MongoDB ObjectId"
+          },
+          {
+            "name": "post",
+            "in": "body",
+            "description": "An updated post object",
+            "schema": {
+              "$ref": "#/definitions/Post"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The specified post has been edited."
+          },
+          "400": {
+            "description": "An invalid MongoDB ObjectId was provided."
+          },
+          "500": {
+            "description": "An error occured."
+          }
+        }
+      },
+      "delete": {
+        "summary": "This endpoint deletes a single post.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "A MongoDB ObjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The specified post has been deleted."
+          },
+          "400": {
+            "description": "An invalid MongoDB ObjectId was provided."
+          },
+          "500": {
+            "description": "An error occured."
+          }
+        }
+      }
+    },
+    "/authors": {
+      "get": {
+        "summary": "This endpoint returns a list of all the authors in the database.",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns an array of author objects.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Author"
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "An error occured."
+          }
+        }
+      },
+      "post": {
+        "summary": "This endpoint creates a author.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "example": "any"
+                },
+                "lastName": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Returns an object containing the result of the request and a string representing a MongoDB ObjectId.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "acknowledged": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "insertedId": {
+                  "type": "string",
+                  "example": "643f75ca2cec8ebd2a3cc16c"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "An error occured."
+          }
+        }
+      }
+    },
+    "/authors/{authorId}": {
+      "get": {
+        "summary": "This endpoint returns the details of a single author.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "A MongoDB ObjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a author object.",
+            "schema": {
+              "$ref": "#/definitions/Author"
+            }
+          },
+          "400": {
+            "description": "An invalid MongoDB ObjectId was provided."
+          },
+          "500": {
+            "description": "An error occured."
+          }
+        }
+      },
+      "put": {
+        "summary": "This endpoint updates the content of a single author.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "A MongoDB ObjectId"
+          },
+          {
+            "name": "author",
+            "in": "body",
+            "description": "An updated author object",
+            "schema": {
+              "$ref": "#/definitions/Author"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The specified author has been edited."
+          },
+          "400": {
+            "description": "An invalid MongoDB ObjectId was provided."
+          },
+          "500": {
+            "description": "An error occured."
+          }
+        }
+      },
+      "delete": {
+        "summary": "This endpoint deletes a single author.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "A MongoDB ObjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The specified author has been deleted."
+          },
+          "400": {
+            "description": "An invalid MongoDB ObjectId was provided."
+          },
+          "500": {
+            "description": "An error occured."
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Post": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string",
+          "example": "This is a post!"
+        },
+        "authorId": {
+          "type": "string",
+          "example": "6465a918462368509b563b23"
+        },
+        "tags": {
+          "type": "array",
+          "example": [
+            "Technology",
+            "Innovation",
+            "Programming"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "likes": {
+          "type": "number",
+          "example": 33
+        },
+        "replyTo": {
+          "type": "string",
+          "example": "6465abf6462368509b563b2a"
+        },
+        "createdOn": {
+          "type": "string",
+          "example": "2022-09-25T09:12:45Z"
+        },
+        "editedAt": {
+          "type": "string",
+          "example": "2022-10-15T13:42:30Z"
+        }
+      },
+      "required": [
+        "content",
+        "authorId"
+      ]
+    },
+    "Author": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "example": "John"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "Doe"
+        },
+        "email": {
+          "type": "string",
+          "example": "john.doe@gmail.com"
+        },
+        "joinedOn": {
+          "type": "string",
+          "example": "2022-10-15T13:42:30Z"
+        }
+      },
+      "required": [
+        "firstName",
+        "lastName",
+        "email"
+      ]
+    }
+  }
+}

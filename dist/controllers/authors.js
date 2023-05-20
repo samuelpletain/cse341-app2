@@ -13,17 +13,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongodb_1 = require("mongodb");
-const posts_1 = __importDefault(require("../models/posts"));
+const authors_1 = __importDefault(require("../models/authors"));
 const db = require("../db/connect");
-const getAllPosts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // #swagger.summary = "This endpoint returns a list of all the posts in the database."
+const getAllAuthors = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // #swagger.summary = "This endpoint returns a list of all the authors in the database."
     try {
-        const posts = yield db.getDb().db("App2").collection("posts").find({}).toArray();
+        const authors = yield db.getDb().db("App2").collection("authors").find({}).toArray();
         /* #swagger.responses[200] = {
-                description: 'Returns an array of post objects.',
-                schema: [{ $ref: '#/definitions/Post' }]
+                description: 'Returns an array of author objects.',
+                schema: [{ $ref: '#/definitions/Author' }]
         } */
-        res.status(200).json(posts);
+        res.status(200).json(authors);
     }
     catch (err) {
         /* #swagger.responses[500] = {
@@ -32,9 +32,9 @@ const getAllPosts = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         res.status(500).json(err);
     }
 });
-const getPostById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // #swagger.summary = "This endpoint returns the details of a single post."
-    /*  #swagger.parameters['postId'] = {
+const getAuthorById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // #swagger.summary = "This endpoint returns the details of a single author."
+    /*  #swagger.parameters['authorId'] = {
                   in: 'path',
                   description: 'A MongoDB ObjectId',
                   required: true
@@ -42,26 +42,26 @@ const getPostById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     try {
         let id;
         try {
-            id = new mongodb_1.ObjectId(req.params.postId);
+            id = new mongodb_1.ObjectId(req.params.authorId);
         }
         catch (err) {
             /* #swagger.responses[400] = {
                   description: 'An invalid MongoDB ObjectId was provided.'
           } */
-            res.status(400).json("Please provide a valid post id.");
+            res.status(400).json("Please provide a valid author id.");
             return;
         }
-        const post = yield db
+        const author = yield db
             .getDb()
             .db("App2")
-            .collection("posts")
+            .collection("authors")
             .find({ _id: id })
             .toArray();
         /* #swagger.responses[200] = {
-                description: 'Returns a post object.',
-                schema: { $ref: '#/definitions/Post' },
+                description: 'Returns a author object.',
+                schema: { $ref: '#/definitions/Author' },
         } */
-        res.status(200).json(post);
+        res.status(200).json(author);
     }
     catch (err) {
         /* #swagger.responses[500] = {
@@ -70,17 +70,16 @@ const getPostById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         res.status(500).json(err);
     }
 });
-const createPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // #swagger.summary = "This endpoint creates a post."
+const createAuthor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // #swagger.summary = "This endpoint creates a author."
     try {
-        const post = new posts_1.default({
-            content: req.body.content,
-            authorId: req.body.authorId,
-            tags: req.body.tags,
-            replyTo: req.body.replyTo
+        const author = new authors_1.default({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
         });
-        const collection = db.getDb().db("App2").collection("posts");
-        const newPost = yield collection.insertOne(post);
+        const collection = db.getDb().db("App2").collection("authors");
+        const newAuthor = yield collection.insertOne(author);
         /* #swagger.responses[201] = {
                 description: 'Returns an object containing the result of the request and a string representing a MongoDB ObjectId.',
                 schema: {
@@ -88,7 +87,7 @@ const createPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                         insertedId: "643f75ca2cec8ebd2a3cc16c"
                     }
         } */
-        res.status(201).json(newPost);
+        res.status(201).json(newAuthor);
     }
     catch (err) {
         /* #swagger.responses[500] = {
@@ -97,9 +96,9 @@ const createPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.status(500).json(err);
     }
 });
-const deletePostById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // #swagger.summary = "This endpoint deletes a single post."
-    /*  #swagger.parameters['postId'] = {
+const deleteAuthorById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // #swagger.summary = "This endpoint deletes a single author."
+    /*  #swagger.parameters['authorId'] = {
                   in: 'path',
                   description: 'A MongoDB ObjectId',
                   required: true
@@ -107,18 +106,18 @@ const deletePostById = (req, res) => __awaiter(void 0, void 0, void 0, function*
     try {
         let id;
         try {
-            id = new mongodb_1.ObjectId(req.params.postId);
+            id = new mongodb_1.ObjectId(req.params.authorId);
         }
         catch (err) {
             /* #swagger.responses[400] = {
                   description: 'An invalid MongoDB ObjectId was provided.'
           } */
-            res.status(400).json("Please provide a valid post id.");
+            res.status(400).json("Please provide a valid author id.");
             return;
         }
-        yield db.getDb().db("App2").collection("posts").deleteOne({ _id: id });
+        yield db.getDb().db("App2").collection("authors").deleteOne({ _id: id });
         /* #swagger.responses[200] = {
-                description: 'The specified post has been deleted.',
+                description: 'The specified author has been deleted.',
         } */
         res.status(200).send();
     }
@@ -129,38 +128,39 @@ const deletePostById = (req, res) => __awaiter(void 0, void 0, void 0, function*
         res.status(500).json(err);
     }
 });
-const updatePostById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // #swagger.summary = "This endpoint updates the content of a single post."
-    /*  #swagger.parameters['postId'] = {
+const updateAuthorById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // #swagger.summary = "This endpoint updates the content of a single author."
+    /*  #swagger.parameters['authorId'] = {
                   in: 'path',
                   description: 'A MongoDB ObjectId',
                   required: true
           } */
-    /*  #swagger.parameters['post'] = {
+    /*  #swagger.parameters['author'] = {
                   in: 'body',
-                  description: 'An updated post object',
-                  schema: { $ref: '#/definitions/Post' },
+                  description: 'An updated author object',
+                  schema: { $ref: '#/definitions/Author' },
                   required: true
           } */
     try {
-        let post = {
-            content: req.body.content,
-            editedAt: new Date(Date.now()).toISOString()
+        let author = {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email
         };
         let id;
         try {
-            id = new mongodb_1.ObjectId(req.params.postId);
+            id = new mongodb_1.ObjectId(req.params.authorId);
         }
         catch (err) {
             /* #swagger.responses[400] = {
                   description: 'An invalid MongoDB ObjectId was provided.'
           } */
-            res.status(400).json("Please provide a valid post id.");
+            res.status(400).json("Please provide a valid author id.");
             return;
         }
-        yield db.getDb().db("App2").collection("posts").updateOne({ _id: id }, { $set: post });
+        yield db.getDb().db("App2").collection("authors").updateOne({ _id: id }, { $set: author });
         /* #swagger.responses[204] = {
-                    description: 'The specified post has been edited.',
+                    description: 'The specified author has been edited.',
             } */
         res.status(204).send();
     }
@@ -172,9 +172,9 @@ const updatePostById = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 module.exports = {
-    getAllPosts,
-    getPostById,
-    createPost,
-    deletePostById,
-    updatePostById
+    getAllAuthors,
+    getAuthorById,
+    createAuthor,
+    deleteAuthorById,
+    updateAuthorById
 };
