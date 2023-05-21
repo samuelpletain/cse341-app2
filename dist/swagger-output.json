@@ -213,21 +213,31 @@
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "newAuthor",
             "in": "body",
+            "description": "An object representing a new author",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
                 "firstName": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "John"
                 },
                 "lastName": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "Doe"
                 },
                 "email": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "john.doe@gmail.com"
                 }
-              }
+              },
+              "required": [
+                "firstName",
+                "lastName",
+                "email"
+              ]
             }
           }
         ],

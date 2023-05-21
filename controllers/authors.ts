@@ -60,6 +60,16 @@ const getAuthorById = async (req: Request, res: Response) => {
 
 const createAuthor = async (req: Request, res: Response) => {
   // #swagger.summary = "This endpoint creates a author."
+  /*  #swagger.parameters['newAuthor'] = {
+                in: 'body',
+                description: 'An object representing a new author',
+                required: true,
+                schema: {
+                  $firstName: "John",
+                  $lastName: "Doe",
+                  $email: "john.doe@gmail.com"
+                }
+        } */
   try {
     const author = new Author({
       firstName: req.body.firstName,
