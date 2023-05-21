@@ -5,8 +5,8 @@ const doc = {
     title: 'Social Media API',
     description: 'The Social Media API is a RESTful API that allows users to interact with a social media platform. It provides endpoints for creating, retrieving, updating, and deleting posts and authors.'
   },
-  host: 'https://cse341-app2.onrender.com',
-  schemes: ['https', 'http'],
+  host: 'cse341-app2.onrender.com',
+  schemes: ['https'],
   definitions: {
     Post: {
       $content: "This is a post!",
