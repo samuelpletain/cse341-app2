@@ -18,7 +18,7 @@ const db = require("../db/connect");
 const getAllAuthors = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // #swagger.summary = "This endpoint returns a list of all the authors in the database."
     try {
-        const authors = yield db.getDb().db("App2").collection("authors").find({}).toArray();
+        const authors = yield authors_1.default.find();
         /* #swagger.responses[200] = {
                 description: 'Returns an array of author objects.',
                 schema: [{ $ref: '#/definitions/Author' }]
@@ -72,14 +72,27 @@ const getAuthorById = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 });
 const createAuthor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // #swagger.summary = "This endpoint creates a author."
+    /*  #swagger.parameters['newAuthor'] = {
+                  in: 'body',
+                  description: 'An object representing a new author',
+                  required: true,
+                  schema: {
+                    $firstName: "John",
+                    $lastName: "Doe",
+                    $email: "john.doe@gmail.com"
+                  }
+          } */
     try {
         const author = new authors_1.default({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             email: req.body.email,
         });
-        const collection = db.getDb().db("App2").collection("authors");
-        const newAuthor = yield collection.insertOne(author);
+        const newAuthor = yield author.save().catch((err) => {
+            res.status(500).json({
+                error: err.message
+            });
+        });
         /* #swagger.responses[201] = {
                 description: 'Returns an object containing the result of the request and a string representing a MongoDB ObjectId.',
                 schema: {

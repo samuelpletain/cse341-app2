@@ -16,7 +16,7 @@ const postSchema = new Schema<Post>({
   tags: [{ type: String }],
   likes: { type: Number, default: 0 },
   replyTo: { type: String, default: "" },
-  createdOn: { type: String, default: Date.now().toString() },
+  createdOn: { type: String, default: new Date(Date.now()).toDateString() },
   editedAt: { type: String, default: "" }
 })
 

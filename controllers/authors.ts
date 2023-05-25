@@ -7,7 +7,7 @@ const db = require("../db/connect");
 const getAllAuthors = async (req: Request, res: Response) => {
   // #swagger.summary = "This endpoint returns a list of all the authors in the database."
   try {
-    const authors = await db.getDb().db("App2").collection("authors").find({}).toArray() as Author[];
+    const authors = await Author.find() as Author[];
     /* #swagger.responses[200] = {
             description: 'Returns an array of author objects.',
             schema: [{ $ref: '#/definitions/Author' }]
@@ -76,8 +76,11 @@ const createAuthor = async (req: Request, res: Response) => {
       lastName: req.body.lastName,
       email: req.body.email,
     })
-    const collection = db.getDb().db("App2").collection("authors");
-    const newAuthor = await collection.insertOne(author);
+    const newAuthor = await author.save().catch((err: Error) => {
+      res.status(500).json({
+        error: err.message
+      })
+    });
     /* #swagger.responses[201] = {
             description: 'Returns an object containing the result of the request and a string representing a MongoDB ObjectId.',
             schema: {

@@ -5,11 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 const express = require('express');
-const db = require("./db/connect");
 const posts = require("./routes/posts");
 const authors = require("./routes/authors");
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger-output.json');
+const mongoose = require('mongoose');
 dotenv_1.default.config();
 const app = express();
 const port = process.env.PORT || 3000;
@@ -24,13 +24,11 @@ app.use((req, res, next) => {
 });
 app.use('/', posts);
 app.use('/', authors);
-db.initDb((err) => {
-    if (err) {
-        console.log(err);
-    }
-    else {
-        app.listen(port, () => {
-            console.log(`Server running on port ${port}`);
-        });
-    }
+mongoose.connect(process.env.ATLAS_URI).then(() => {
+    console.log(`Successfully connected to MongoDB`);
+    app.listen(port, () => {
+        console.log(`Server running on ${process.env.RENDER_EXTERNAL_URL}:${port}`);
+    });
+}).catch((err) => {
+    console.log(`Not connected to MongoDB`);
 });
