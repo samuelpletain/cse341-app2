@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongodb_1 = require("mongodb");
 const authors_1 = __importDefault(require("../models/authors"));
-const db = require("../db/connect");
 const getAllAuthors = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // #swagger.summary = "This endpoint returns a list of all the authors in the database."
     try {
@@ -51,12 +50,7 @@ const getAuthorById = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             res.status(400).json("Please provide a valid author id.");
             return;
         }
-        const author = yield db
-            .getDb()
-            .db("App2")
-            .collection("authors")
-            .find({ _id: id })
-            .toArray();
+        const author = yield authors_1.default.findOne(id);
         /* #swagger.responses[200] = {
                 description: 'Returns a author object.',
                 schema: { $ref: '#/definitions/Author' },
@@ -83,13 +77,20 @@ const createAuthor = (req, res) => __awaiter(void 0, void 0, void 0, function* (
                   }
           } */
     try {
-        const author = new authors_1.default({
+        let authorObj = {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             email: req.body.email,
-        });
+        };
+        if (req.body.joinedOn) {
+            Object.assign(authorObj, { joinedOn: req.body.joinedOn });
+        }
+        const author = new authors_1.default(authorObj);
         const newAuthor = yield author.save().catch((err) => {
-            res.status(500).json({
+            /* #swagger.responses[422] = {
+                  description: 'The provided author object does not pass validation.'
+          } */
+            res.status(422).json({
                 error: err.message
             });
         });
@@ -128,7 +129,7 @@ const deleteAuthorById = (req, res) => __awaiter(void 0, void 0, void 0, functio
             res.status(400).json("Please provide a valid author id.");
             return;
         }
-        yield db.getDb().db("App2").collection("authors").deleteOne({ _id: id });
+        yield authors_1.default.deleteOne(id);
         /* #swagger.responses[200] = {
                 description: 'The specified author has been deleted.',
         } */
@@ -160,6 +161,9 @@ const updateAuthorById = (req, res) => __awaiter(void 0, void 0, void 0, functio
             lastName: req.body.lastName,
             email: req.body.email
         };
+        if (req.body.joinedOn) {
+            Object.assign(author, { joinedOn: req.body.joinedOn });
+        }
         let id;
         try {
             id = new mongodb_1.ObjectId(req.params.authorId);
@@ -171,7 +175,14 @@ const updateAuthorById = (req, res) => __awaiter(void 0, void 0, void 0, functio
             res.status(400).json("Please provide a valid author id.");
             return;
         }
-        yield db.getDb().db("App2").collection("authors").updateOne({ _id: id }, { $set: author });
+        yield authors_1.default.replaceOne({ _id: id }, author, { runValidators: true }).catch((err) => {
+            /* #swagger.responses[422] = {
+                  description: 'The provided author object does not pass validation.'
+          } */
+            res.status(422).json({
+                error: err.message
+            });
+        });
         /* #swagger.responses[204] = {
                     description: 'The specified author has been edited.',
             } */

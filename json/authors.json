@@ -3,30 +3,30 @@
     "firstName": "John",
     "lastName": "Doe",
     "email": "john.doe@gmail.com",
-    "joinedOn": "2020/01/01"
+    "joinedOn": "2020-01-01T09:23:17Z"
   },
   {
     "firstName": "Jane",
     "lastName": "Smith",
     "email": "jane.smith@yahoo.com",
-    "joinedOn": "2019/06/15"
+    "joinedOn": "2019-06-15T18:47:59Z"
   },
   {
     "firstName": "David",
     "lastName": "Johnson",
     "email": "david.johnson@hotmail.com",
-    "joinedOn": "2021/03/10"
+    "joinedOn": "2021-03-10T14:52:33Z"
   },
   {
     "firstName": "Sarah",
     "lastName": "Williams",
     "email": "sarah.williams@gmail.com",
-    "joinedOn": "2018/11/30"
+    "joinedOn": "2018-11-30T05:10:42Z"
   },
   {
     "firstName": "Michael",
     "lastName": "Brown",
     "email": "michael.brown@gmail.com",
-    "joinedOn": "2022/02/18"
+    "joinedOn": "2022-02-18T20:30:11Z"
   }
 ]

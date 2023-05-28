@@ -15,21 +15,22 @@ Content-Type: application/json
 {
   "firstName": "Sam",
   "lastName": "Pletain",
-  "email": "samuel.pletain@gmail.com"
+  "email": "test@gmail.com",
+  "joinedOn": "2023-05-28T00:05:12Z"
 }
 
 ### Update a author
-PUT http://localhost:3000/authors/64693a9524680324b50ad7dc HTTP/1.1
+PUT http://localhost:3000/authors/64713d92236f799f60e5d802 HTTP/1.1
 Content-Type: application/json
 
 {
-  "firstName": "Sam",
+  "firstName": "Samuel",
   "lastName": "Pletain",
   "email": "samuel.pletain@gmail.com"
 }
 
 ### Delete a author
-DELETE http://localhost:3000/authors/6466f4dfecc4e629a95a0ed8 HTTP/1.1
+DELETE http://localhost:3000/authors/64714c0d134f0c2847020acc HTTP/1.1
 
 ### Render
 

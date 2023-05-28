@@ -2,8 +2,6 @@ import { Request, Response } from "express";
 import { ObjectId } from "mongodb";
 import Author from "../models/authors";
 
-const db = require("../db/connect");
-
 const getAllAuthors = async (req: Request, res: Response) => {
   // #swagger.summary = "This endpoint returns a list of all the authors in the database."
   try {
@@ -39,12 +37,7 @@ const getAuthorById = async (req: Request, res: Response) => {
       res.status(400).json("Please provide a valid author id.");
       return;
     }
-    const author = await db
-      .getDb()
-      .db("App2")
-      .collection("authors")
-      .find({ _id: id })
-      .toArray() as Author;
+    const author = await Author.findOne(id) as Author;
     /* #swagger.responses[200] = {
             description: 'Returns a author object.',
             schema: { $ref: '#/definitions/Author' },
@@ -71,13 +64,20 @@ const createAuthor = async (req: Request, res: Response) => {
                 }
         } */
   try {
-    const author = new Author({
+    let authorObj = {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
-    })
+    };
+    if (req.body.joinedOn) {
+      Object.assign(authorObj, { joinedOn: req.body.joinedOn });
+    }
+    const author = new Author(authorObj);
     const newAuthor = await author.save().catch((err: Error) => {
-      res.status(500).json({
+      /* #swagger.responses[422] = {
+            description: 'The provided author object does not pass validation.'
+    } */
+      res.status(422).json({
         error: err.message
       })
     });
@@ -115,7 +115,7 @@ const deleteAuthorById = async (req: Request, res: Response) => {
       res.status(400).json("Please provide a valid author id.");
       return;
     }
-    await db.getDb().db("App2").collection("authors").deleteOne({ _id: id });
+    await Author.deleteOne(id);
     /* #swagger.responses[200] = {
             description: 'The specified author has been deleted.',
     } */
@@ -146,6 +146,9 @@ const updateAuthorById = async (req: Request, res: Response) => {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email
+    };
+    if (req.body.joinedOn) {
+      Object.assign(author, { joinedOn: req.body.joinedOn });
     }
     let id: ObjectId;
     try {
@@ -157,7 +160,14 @@ const updateAuthorById = async (req: Request, res: Response) => {
       res.status(400).json("Please provide a valid author id.");
       return;
     }
-    await db.getDb().db("App2").collection("authors").updateOne({ _id: id }, { $set: author });
+    await Author.replaceOne({ _id: id }, author, { runValidators: true }).catch((err: Error) => {
+      /* #swagger.responses[422] = {
+            description: 'The provided author object does not pass validation.'
+    } */
+      res.status(422).json({
+        error: err.message
+      })
+    });
     /* #swagger.responses[204] = {
                 description: 'The specified author has been edited.',
         } */

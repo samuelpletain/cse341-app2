@@ -93,6 +93,9 @@
               }
             }
           },
+          "422": {
+            "description": "The provided post object does not pass validation."
+          },
           "500": {
             "description": "An error occured."
           }
@@ -154,6 +157,9 @@
           },
           "400": {
             "description": "An invalid MongoDB ObjectId was provided."
+          },
+          "422": {
+            "description": "The provided post object does not pass validation."
           },
           "500": {
             "description": "An error occured."
@@ -261,6 +267,9 @@
               }
             }
           },
+          "422": {
+            "description": "The provided author object does not pass validation."
+          },
           "500": {
             "description": "An error occured."
           }
@@ -322,6 +331,9 @@
           },
           "400": {
             "description": "An invalid MongoDB ObjectId was provided."
+          },
+          "422": {
+            "description": "The provided author object does not pass validation."
           },
           "500": {
             "description": "An error occured."

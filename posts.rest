@@ -12,10 +12,10 @@ Content-Type: application/json
 
 {
   "content": "Test",
-  "authorId": 3,
+  "authorId": "6466f4dfecc4e629a95a0ed8",
   "tags": [
     "A test"
-  ]
+  ],
 }
 
 ### Update a post

@@ -2,12 +2,10 @@ import { Request, Response } from "express";
 import { ObjectId } from "mongodb";
 import Post from "../models/posts";
 
-const db = require("../db/connect");
-
 const getAllPosts = async (req: Request, res: Response) => {
   // #swagger.summary = "This endpoint returns a list of all the posts in the database."
   try {
-    const posts = await db.getDb().db("App2").collection("posts").find({}).toArray() as Post[];
+    const posts = await Post.find() as Post[];
     /* #swagger.responses[200] = {
             description: 'Returns an array of post objects.',
             schema: [{ $ref: '#/definitions/Post' }]
@@ -39,12 +37,7 @@ const getPostById = async (req: Request, res: Response) => {
       res.status(400).json("Please provide a valid post id.");
       return;
     }
-    const post = await db
-      .getDb()
-      .db("App2")
-      .collection("posts")
-      .find({ _id: id })
-      .toArray() as Post;
+    const post = await Post.findOne(id) as Post;
     /* #swagger.responses[200] = {
             description: 'Returns a post object.',
             schema: { $ref: '#/definitions/Post' },
@@ -75,10 +68,17 @@ const createPost = async (req: Request, res: Response) => {
       content: req.body.content,
       authorId: req.body.authorId,
       tags: req.body.tags,
-      replyTo: req.body.replyTo
+      replyTo: req.body.replyTo,
+      editedAt: req.body.editedAt
     })
-    const collection = db.getDb().db("App2").collection("posts");
-    const newPost = await collection.insertOne(post);
+    const newPost = await post.save().catch((err: Error) => {
+      /* #swagger.responses[422] = {
+            description: 'The provided post object does not pass validation.'
+    } */
+      res.status(422).json({
+        error: err.message
+      })
+    });
     /* #swagger.responses[201] = {
             description: 'Returns an object containing the result of the request and a string representing a MongoDB ObjectId.',
             schema: {
@@ -113,7 +113,7 @@ const deletePostById = async (req: Request, res: Response) => {
       res.status(400).json("Please provide a valid post id.");
       return;
     }
-    await db.getDb().db("App2").collection("posts").deleteOne({ _id: id });
+    await Post.deleteOne(id);
     /* #swagger.responses[200] = {
             description: 'The specified post has been deleted.',
     } */
@@ -143,7 +143,7 @@ const updatePostById = async (req: Request, res: Response) => {
     let post = {
       content: req.body.content,
       editedAt: new Date(Date.now()).toISOString()
-    }
+    };
     let id: ObjectId;
     try {
       id = new ObjectId(req.params.postId);
@@ -154,7 +154,14 @@ const updatePostById = async (req: Request, res: Response) => {
       res.status(400).json("Please provide a valid post id.");
       return;
     }
-    await db.getDb().db("App2").collection("posts").updateOne({ _id: id }, { $set: post });
+    await Post.replaceOne({ _id: id }, post, { runValidators: true }).catch((err: Error) => {
+      /* #swagger.responses[422] = {
+            description: 'The provided post object does not pass validation.'
+    } */
+      res.status(422).json({
+        error: err.message
+      })
+    });
     /* #swagger.responses[204] = {
                 description: 'The specified post has been edited.',
         } */

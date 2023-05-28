@@ -28,6 +28,7 @@ mongoose.connect(process.env.ATLAS_URI).then(() => {
     console.log(`Successfully connected to MongoDB`);
     app.listen(port, () => {
         console.log(`Server running on ${process.env.RENDER_EXTERNAL_URL}:${port}`);
+        console.log(`Documentation: ${process.env.RENDER_EXTERNAL_URL}:${port}/api-docs`);
     });
 }).catch((err) => {
     console.log(`Not connected to MongoDB`);

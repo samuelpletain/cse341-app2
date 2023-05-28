@@ -14,11 +14,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongodb_1 = require("mongodb");
 const posts_1 = __importDefault(require("../models/posts"));
-const db = require("../db/connect");
 const getAllPosts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // #swagger.summary = "This endpoint returns a list of all the posts in the database."
     try {
-        const posts = yield db.getDb().db("App2").collection("posts").find({}).toArray();
+        const posts = yield posts_1.default.find();
         /* #swagger.responses[200] = {
                 description: 'Returns an array of post objects.',
                 schema: [{ $ref: '#/definitions/Post' }]
@@ -51,12 +50,7 @@ const getPostById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             res.status(400).json("Please provide a valid post id.");
             return;
         }
-        const post = yield db
-            .getDb()
-            .db("App2")
-            .collection("posts")
-            .find({ _id: id })
-            .toArray();
+        const post = yield posts_1.default.findOne(id);
         /* #swagger.responses[200] = {
                 description: 'Returns a post object.',
                 schema: { $ref: '#/definitions/Post' },
@@ -87,10 +81,17 @@ const createPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             content: req.body.content,
             authorId: req.body.authorId,
             tags: req.body.tags,
-            replyTo: req.body.replyTo
+            replyTo: req.body.replyTo,
+            editedAt: req.body.editedAt
         });
-        const collection = db.getDb().db("App2").collection("posts");
-        const newPost = yield collection.insertOne(post);
+        const newPost = yield post.save().catch((err) => {
+            /* #swagger.responses[422] = {
+                  description: 'The provided post object does not pass validation.'
+          } */
+            res.status(422).json({
+                error: err.message
+            });
+        });
         /* #swagger.responses[201] = {
                 description: 'Returns an object containing the result of the request and a string representing a MongoDB ObjectId.',
                 schema: {
@@ -126,7 +127,7 @@ const deletePostById = (req, res) => __awaiter(void 0, void 0, void 0, function*
             res.status(400).json("Please provide a valid post id.");
             return;
         }
-        yield db.getDb().db("App2").collection("posts").deleteOne({ _id: id });
+        yield posts_1.default.deleteOne(id);
         /* #swagger.responses[200] = {
                 description: 'The specified post has been deleted.',
         } */
@@ -168,7 +169,14 @@ const updatePostById = (req, res) => __awaiter(void 0, void 0, void 0, function*
             res.status(400).json("Please provide a valid post id.");
             return;
         }
-        yield db.getDb().db("App2").collection("posts").updateOne({ _id: id }, { $set: post });
+        yield posts_1.default.replaceOne({ _id: id }, post, { runValidators: true }).catch((err) => {
+            /* #swagger.responses[422] = {
+                  description: 'The provided post object does not pass validation.'
+          } */
+            res.status(422).json({
+                error: err.message
+            });
+        });
         /* #swagger.responses[204] = {
                     description: 'The specified post has been edited.',
             } */
