@@ -73,7 +73,8 @@ const createPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                   schema: {
                     $content: 'Jhon Doe',
                     $authorId: '6465a918462368509b563b23',
-                    tags: ["Technology", "Innovation", "Programming"]
+                    tags: ["Technology", "Innovation", "Programming"],
+                    replyTo: "6465abf6462368509b563b30"
                   }
           } */
     try {

@@ -1,5 +1,9 @@
 # TODO
 
+## Week 7
+
+# DONE
+
 ## Week 6
 - [x] Update routes to deal with ISO strings for dates
   - [x] authors
@@ -9,9 +13,7 @@
   - [x] post
 - [x] Update database
 - [x] Push to github
-- [ ] Update .rest files
-  - [ ] authors
-  - [ ] post
-- [ ] Push to github
-
-# DONE
+- [x] Update .rest files
+  - [x] authors
+  - [x] post
+- [x] Push to github

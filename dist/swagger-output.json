@@ -64,6 +64,10 @@
                   "items": {
                     "type": "string"
                   }
+                },
+                "replyTo": {
+                  "type": "string",
+                  "example": "6465abf6462368509b563b30"
                 }
               },
               "required": [
