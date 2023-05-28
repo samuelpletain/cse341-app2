@@ -27,7 +27,11 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 app.use('/', posts);
-app.use('/', authors)
+app.use('/', authors);
+
+process.on('uncaughtException', (err, origin) => {
+  console.log(process.stderr.fd, `Caught exception: ${err}\n` + `Exception origin: ${origin}`);
+});
 
 mongoose.connect(process.env.ATLAS_URI).then(() => {
   console.log(`Successfully connected to MongoDB`);
