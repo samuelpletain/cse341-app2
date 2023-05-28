@@ -49,3 +49,16 @@ Content-Type: application/json
   "lastName": "Pletain",
   "email": "samuel.pletain@gmail.com"
 }
+
+### Update a author
+PUT https://cse341-app2.onrender.com/authors/64713d92236f799f60e5d802 HTTP/1.1
+Content-Type: application/json
+
+{
+  "firstName": "Samuel",
+  "lastName": "Pletain",
+  "email": "samuel.pletain@gmail.com"
+}
+
+### Delete a author
+DELETE https://cse341-app2.onrender.com/authors/64714c0d134f0c2847020acc HTTP/1.1

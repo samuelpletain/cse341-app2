@@ -67,10 +67,13 @@ const createPost = async (req: Request, res: Response) => {
     const post = new Post({
       content: req.body.content,
       authorId: req.body.authorId,
-      tags: req.body.tags,
-      replyTo: req.body.replyTo,
-      editedAt: req.body.editedAt
     })
+    if (req.body.tags) {
+      Object.assign(post, { tags: req.body.tags });
+    }
+    if (req.body.replyTo) {
+      Object.assign(post, { replyTo: req.body.replyTo })
+    }
     const newPost = await post.save().catch((err: Error) => {
       /* #swagger.responses[422] = {
             description: 'The provided post object does not pass validation.'
@@ -140,10 +143,25 @@ const updatePostById = async (req: Request, res: Response) => {
                 required: true
         } */
   try {
-    let post = {
+    const post = {
       content: req.body.content,
-      editedAt: new Date(Date.now()).toISOString()
-    };
+      authorId: req.body.authorId,
+    }
+    if (req.body.tags) {
+      Object.assign(post, { tags: req.body.tags });
+    }
+    if (req.body.likes) {
+      Object.assign(post, { likes: req.body.likes });
+    }
+    if (req.body.replyTo) {
+      Object.assign(post, { replyTo: req.body.replyTo })
+    }
+    if (req.body.createdOn) {
+      Object.assign(post, { createdOn: req.body.createdOn })
+    }
+    if (req.body.editedAt) {
+      Object.assign(post, { editedAt: req.body.editedAt })
+    }
     let id: ObjectId;
     try {
       id = new ObjectId(req.params.postId);

@@ -8,7 +8,7 @@
   - [x] authors
   - [x] post
 - [x] Update database
-- [ ] Push to github
+- [x] Push to github
 - [ ] Update .rest files
   - [ ] authors
   - [ ] post
