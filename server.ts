@@ -5,16 +5,35 @@ const express = require('express');
 
 const posts = require("./routes/posts");
 const authors = require("./routes/authors");
+const auth = require("./routes/auth");
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger-output.json');
 const mongoose = require('mongoose');
+const cookieSession = require('cookie-session');
+const passport = require('passport')
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
+app.set('view engine', 'ejs');
+
+app.use(cookieSession({
+  maxAge: 24 * 60 * 60 * 1000,
+  keys: [process.env.COOKIE_KEY]
+}));
+
+app.use(passport.initialize());
+app.use(passport.session())
+
 app.use(express.json());
+
+app.get('/', (req: Request, res: Response) => {
+  res.render('home');
+})
+
+app.use('/auth', auth);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
@@ -40,5 +59,6 @@ mongoose.connect(process.env.ATLAS_URI).then(() => {
     console.log(`Documentation: ${process.env.RENDER_EXTERNAL_URL}:${port}/api-docs`)
   });
 }).catch((err: Error) => {
+  console.log(err);
   console.log(`Not connected to MongoDB`);
 });
