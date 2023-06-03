@@ -2,18 +2,13 @@ import { NextFunction, Router } from 'express'
 import { Request, Response } from "express";
 const passport = require('passport');
 const passportStategies = require('../config/passport')
+const auth = require('../controllers/auth')
 
 const routes: Router = require('express').Router()
 
-routes.get('/login', (req: Request, res: Response) => {
-  res.redirect('/auth/google');
-})
+routes.get('/login', auth.login)
 
-routes.get('/logout', (req: Request, res: Response, next: NextFunction) => {
-  // @ts-ignore
-  req.logout();
-  res.redirect('/');
-})
+routes.get('/logout', auth.logout)
 
 routes.get('/google', passport.authenticate('google', {
   scope: ['profile'],
