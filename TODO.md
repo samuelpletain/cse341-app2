@@ -1,6 +1,8 @@
 # TODO
 
 ## Week 7
+- [x] Add Google OAuth to the app
+- [ ] Update swagger documentation
 
 # DONE
 
