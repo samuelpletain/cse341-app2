@@ -369,29 +369,33 @@
         }
       }
     },
-    "/login": {
+    "/auth/login": {
       "get": {
+        "summary": "This endpoint redirects a user to /auth/google.",
         "description": "",
         "parameters": [],
         "responses": {}
       }
     },
-    "/logout": {
+    "/auth/logout": {
       "get": {
+        "summary": "This endpoint logs out a user.",
         "description": "",
         "parameters": [],
         "responses": {}
       }
     },
-    "/google": {
+    "/auth/google": {
       "get": {
+        "summary": "This endpoint handles OAuth authentication with Google.",
         "description": "",
         "parameters": [],
         "responses": {}
       }
     },
-    "/google/redirect": {
+    "/auth/google/redirect": {
       "get": {
+        "summary": "This endpoint handles the redirection following OAuth authentication with Google.",
         "description": "",
         "parameters": [],
         "responses": {}

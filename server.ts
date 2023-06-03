@@ -33,7 +33,7 @@ app.get('/', (req: Request, res: Response) => {
   res.render('home');
 })
 
-app.use('/auth', auth);
+app.use('/', auth);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
