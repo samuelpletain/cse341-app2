@@ -25,7 +25,8 @@ passport.deserializeUser((id, done) => __awaiter(void 0, void 0, void 0, functio
 passport.use(new GoogleStrategy({
     callbackURL: "/auth/google/redirect",
     clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    scope: ['profile']
 }, (accessToken, refreshToken, profile, done) => __awaiter(void 0, void 0, void 0, function* () {
     let currentUser = yield User.findOne({
         googleId: profile.id

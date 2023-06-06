@@ -23,6 +23,15 @@ const doc = {
       $email: "john.doe@gmail.com",
       joinedOn: "2022-10-15T13:42:30Z"
     }
+  },
+  securityDefinitions: {
+    oAuthSample: {
+      type: 'oauth2',
+      authorizationUrl: 'https://accounts.google.com/o/oauth2/v2/auth',
+      tokenUrl: "https://www.googleapis.com/oauth2/v4/token",
+      flow: 'implicit',
+      scopes: {}
+    }
   }
 };
 
