@@ -30,7 +30,9 @@ const doc = {
       authorizationUrl: 'https://accounts.google.com/o/oauth2/v2/auth',
       tokenUrl: "https://www.googleapis.com/oauth2/v4/token",
       flow: 'implicit',
-      scopes: {}
+      scopes: {
+        "https://www.googleapis.com/auth/userinfo.profile": "All user operations requiring authentication."
+      }
     }
   }
 };
