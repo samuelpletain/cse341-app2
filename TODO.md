@@ -1,9 +1,5 @@
 # TODO
 
-## Week 7
-- [x] Add Google OAuth to the app
-- [ ] Update swagger documentation
-
 # DONE
 
 ## Week 6
@@ -19,3 +15,7 @@
   - [x] authors
   - [x] post
 - [x] Push to github
+
+## Week 7
+- [x] Add Google OAuth to the app
+- [x] Update swagger documentation
