@@ -35,5 +35,5 @@ const postSchema = new mongoose_1.Schema({
         validate: [utils_1.validateDate, 'Please enter a valid date (ISO 8601 without milliseconds).']
     }
 });
-const Post = (0, mongoose_1.model)("Post", postSchema);
+const Post = (0, mongoose_1.model)('Post', postSchema);
 module.exports = Post;

@@ -1,15 +1,15 @@
-import * as mongoDB from "mongodb";
+import * as mongoDB from 'mongodb';
 
-const mongoClient = require("mongodb").MongoClient;
-require("dotenv").config();
+const mongoClient = require('mongodb').MongoClient;
+require('dotenv').config();
 
-const connectionString = process.env.ATLAS_URI || "";
+const connectionString = process.env.ATLAS_URI || '';
 
 let _db: mongoDB.MongoClient;
 
 const initDb = (callback: Function) => {
   if (_db) {
-    console.log("Db is already initialized!");
+    console.log('Db is already initialized!');
     return callback(null, _db);
   }
   mongoClient
@@ -25,7 +25,7 @@ const initDb = (callback: Function) => {
 
 const getDb = () => {
   if (!_db) {
-    throw Error("Db not initialized");
+    throw Error('Db not initialized');
   }
   return _db;
 };

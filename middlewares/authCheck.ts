@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from 'express';
 
 const authCheck = (req: Request, res: Response, next: NextFunction) => {
   if (!req.user) {
@@ -8,4 +8,4 @@ const authCheck = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export default authCheck
+export default authCheck;

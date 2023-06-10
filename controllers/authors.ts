@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
-import { ObjectId } from "mongodb";
-import Author from "../models/authors";
+import { Request, Response } from 'express';
+import { ObjectId } from 'mongodb';
+import Author from '../models/authors';
 
 const getAllAuthors = async (req: Request, res: Response) => {
   // #swagger.summary = "This endpoint returns a list of all the authors in the database."
@@ -34,7 +34,7 @@ const getAuthorById = async (req: Request, res: Response) => {
       /* #swagger.responses[400] = {
             description: 'An invalid MongoDB ObjectId was provided.'
     } */
-      res.status(400).json("Please provide a valid author id.");
+      res.status(400).json('Please provide a valid author id.');
       return;
     }
     const author = await Author.findOne(id) as Author;
@@ -52,6 +52,11 @@ const getAuthorById = async (req: Request, res: Response) => {
 };
 
 const createAuthor = async (req: Request, res: Response) => {
+  /* #swagger.security = [{
+            "oAuthSample": [
+                "https://www.googleapis.com/auth/userinfo.profile",
+            ]
+        }] */
   // #swagger.summary = "This endpoint creates a author."
   /*  #swagger.parameters['newAuthor'] = {
                 in: 'body',
@@ -64,10 +69,10 @@ const createAuthor = async (req: Request, res: Response) => {
                 }
         } */
   try {
-    let authorObj = {
+    const authorObj = {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      email: req.body.email,
+      email: req.body.email
     };
     if (req.body.joinedOn) {
       Object.assign(authorObj, { joinedOn: req.body.joinedOn });
@@ -79,7 +84,7 @@ const createAuthor = async (req: Request, res: Response) => {
     } */
       res.status(422).json({
         error: err.message
-      })
+      });
     });
     /* #swagger.responses[201] = {
             description: 'Returns an object containing the result of the request and a string representing a MongoDB ObjectId.',
@@ -95,9 +100,14 @@ const createAuthor = async (req: Request, res: Response) => {
     } */
     res.status(500).json(err);
   }
-}
+};
 
 const deleteAuthorById = async (req: Request, res: Response) => {
+  /* #swagger.security = [{
+            "oAuthSample": [
+                "https://www.googleapis.com/auth/userinfo.profile",
+            ]
+        }] */
   // #swagger.summary = "This endpoint deletes a single author."
   /*  #swagger.parameters['authorId'] = {
                 in: 'path',
@@ -112,7 +122,7 @@ const deleteAuthorById = async (req: Request, res: Response) => {
       /* #swagger.responses[400] = {
             description: 'An invalid MongoDB ObjectId was provided.'
     } */
-      res.status(400).json("Please provide a valid author id.");
+      res.status(400).json('Please provide a valid author id.');
       return;
     }
     await Author.deleteOne(id);
@@ -129,6 +139,11 @@ const deleteAuthorById = async (req: Request, res: Response) => {
 };
 
 const updateAuthorById = async (req: Request, res: Response) => {
+  /* #swagger.security = [{
+            "oAuthSample": [
+                "https://www.googleapis.com/auth/userinfo.profile",
+            ]
+        }] */
   // #swagger.summary = "This endpoint updates the content of a single author."
   /*  #swagger.parameters['authorId'] = {
                 in: 'path',
@@ -142,7 +157,7 @@ const updateAuthorById = async (req: Request, res: Response) => {
                 required: true
         } */
   try {
-    let author = {
+    const author = {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email
@@ -157,7 +172,7 @@ const updateAuthorById = async (req: Request, res: Response) => {
       /* #swagger.responses[400] = {
             description: 'An invalid MongoDB ObjectId was provided.'
     } */
-      res.status(400).json("Please provide a valid author id.");
+      res.status(400).json('Please provide a valid author id.');
       return;
     }
     await Author.replaceOne({ _id: id }, author, { runValidators: true }).catch((err: Error) => {
@@ -166,7 +181,7 @@ const updateAuthorById = async (req: Request, res: Response) => {
     } */
       res.status(422).json({
         error: err.message
-      })
+      });
     });
     /* #swagger.responses[204] = {
                 description: 'The specified author has been edited.',
@@ -186,4 +201,4 @@ module.exports = {
   createAuthor,
   deleteAuthorById,
   updateAuthorById
-}
+};

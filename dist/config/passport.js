@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
 const User = require('../models/users');
-require("dotenv").config();
+require('dotenv').config();
 passport.serializeUser((user, done) => {
     done(null, user.id);
 });
@@ -22,8 +22,8 @@ passport.deserializeUser((id, done) => __awaiter(void 0, void 0, void 0, functio
         done(null, user);
     }
 }));
-passport.use(new GoogleStrategy({
-    callbackURL: "/auth/google/redirect",
+passport.use('google', new GoogleStrategy({
+    callbackURL: '/auth/google/redirect',
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     scope: ['profile']

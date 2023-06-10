@@ -47,7 +47,7 @@ const getAuthorById = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             /* #swagger.responses[400] = {
                   description: 'An invalid MongoDB ObjectId was provided.'
           } */
-            res.status(400).json("Please provide a valid author id.");
+            res.status(400).json('Please provide a valid author id.');
             return;
         }
         const author = yield authors_1.default.findOne(id);
@@ -65,6 +65,11 @@ const getAuthorById = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 const createAuthor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    /* #swagger.security = [{
+              "oAuthSample": [
+                  "https://www.googleapis.com/auth/userinfo.profile",
+              ]
+          }] */
     // #swagger.summary = "This endpoint creates a author."
     /*  #swagger.parameters['newAuthor'] = {
                   in: 'body',
@@ -77,10 +82,10 @@ const createAuthor = (req, res) => __awaiter(void 0, void 0, void 0, function* (
                   }
           } */
     try {
-        let authorObj = {
+        const authorObj = {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
-            email: req.body.email,
+            email: req.body.email
         };
         if (req.body.joinedOn) {
             Object.assign(authorObj, { joinedOn: req.body.joinedOn });
@@ -111,6 +116,11 @@ const createAuthor = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 const deleteAuthorById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    /* #swagger.security = [{
+              "oAuthSample": [
+                  "https://www.googleapis.com/auth/userinfo.profile",
+              ]
+          }] */
     // #swagger.summary = "This endpoint deletes a single author."
     /*  #swagger.parameters['authorId'] = {
                   in: 'path',
@@ -126,7 +136,7 @@ const deleteAuthorById = (req, res) => __awaiter(void 0, void 0, void 0, functio
             /* #swagger.responses[400] = {
                   description: 'An invalid MongoDB ObjectId was provided.'
           } */
-            res.status(400).json("Please provide a valid author id.");
+            res.status(400).json('Please provide a valid author id.');
             return;
         }
         yield authors_1.default.deleteOne(id);
@@ -143,6 +153,11 @@ const deleteAuthorById = (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 const updateAuthorById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    /* #swagger.security = [{
+              "oAuthSample": [
+                  "https://www.googleapis.com/auth/userinfo.profile",
+              ]
+          }] */
     // #swagger.summary = "This endpoint updates the content of a single author."
     /*  #swagger.parameters['authorId'] = {
                   in: 'path',
@@ -156,7 +171,7 @@ const updateAuthorById = (req, res) => __awaiter(void 0, void 0, void 0, functio
                   required: true
           } */
     try {
-        let author = {
+        const author = {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             email: req.body.email
@@ -172,7 +187,7 @@ const updateAuthorById = (req, res) => __awaiter(void 0, void 0, void 0, functio
             /* #swagger.responses[400] = {
                   description: 'An invalid MongoDB ObjectId was provided.'
           } */
-            res.status(400).json("Please provide a valid author id.");
+            res.status(400).json('Please provide a valid author id.');
             return;
         }
         yield authors_1.default.replaceOne({ _id: id }, author, { runValidators: true }).catch((err) => {

@@ -1,12 +1,12 @@
-import { Error } from "mongoose";
+import { Error } from 'mongoose';
 const mongoose = require('mongoose');
-require("dotenv").config();
+require('dotenv').config();
 
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.ATLAS_URI).then(() => {
-  console.log(`successfully connected`);
+  console.log('successfully connected');
 }).catch((err: Error) => {
-  console.log(`not connected`);
+  console.log(`not connected: ${err}`);
 });
 
 module.exports = { mongoose };

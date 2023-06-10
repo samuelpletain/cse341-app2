@@ -114,7 +114,14 @@
           "500": {
             "description": "An error occured."
           }
-        }
+        },
+        "security": [
+          {
+            "oAuthSample": [
+              "https://www.googleapis.com/auth/userinfo.profile"
+            ]
+          }
+        ]
       }
     },
     "/posts/{postId}": {
@@ -179,7 +186,14 @@
           "500": {
             "description": "An error occured."
           }
-        }
+        },
+        "security": [
+          {
+            "oAuthSample": [
+              "https://www.googleapis.com/auth/userinfo.profile"
+            ]
+          }
+        ]
       },
       "delete": {
         "summary": "This endpoint deletes a single post.",
@@ -203,7 +217,14 @@
           "500": {
             "description": "An error occured."
           }
-        }
+        },
+        "security": [
+          {
+            "oAuthSample": [
+              "https://www.googleapis.com/auth/userinfo.profile"
+            ]
+          }
+        ]
       }
     },
     "/authors": {
@@ -288,7 +309,14 @@
           "500": {
             "description": "An error occured."
           }
-        }
+        },
+        "security": [
+          {
+            "oAuthSample": [
+              "https://www.googleapis.com/auth/userinfo.profile"
+            ]
+          }
+        ]
       }
     },
     "/authors/{authorId}": {
@@ -353,7 +381,14 @@
           "500": {
             "description": "An error occured."
           }
-        }
+        },
+        "security": [
+          {
+            "oAuthSample": [
+              "https://www.googleapis.com/auth/userinfo.profile"
+            ]
+          }
+        ]
       },
       "delete": {
         "summary": "This endpoint deletes a single author.",
@@ -377,7 +412,14 @@
           "500": {
             "description": "An error occured."
           }
-        }
+        },
+        "security": [
+          {
+            "oAuthSample": [
+              "https://www.googleapis.com/auth/userinfo.profile"
+            ]
+          }
+        ]
       }
     },
     "/auth/login": {

@@ -2,10 +2,10 @@ import { Schema, model } from 'mongoose';
 import { validateDate, validateEmail, formattedNow } from '../utils';
 
 interface Author {
-  firstName: String,
-  lastName: String,
-  email: String,
-  joinedOn: String
+  firstName: string,
+  lastName: string,
+  email: string,
+  joinedOn: string
 }
 
 const authorSchema = new Schema<Author>({
@@ -31,10 +31,10 @@ const authorSchema = new Schema<Author>({
     type: String,
     trim: true,
     default: formattedNow,
-    validate: [validateDate, 'Please enter a valid date (ISO 8601 without milliseconds).'],
+    validate: [validateDate, 'Please enter a valid date (ISO 8601 without milliseconds).']
   }
-})
+});
 
-const Author = model<Author>("Author", authorSchema);
+const Author = model<Author>('Author', authorSchema);
 
 export = Author

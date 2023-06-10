@@ -1,4 +1,4 @@
-import mongoose, { Schema, model, Types } from 'mongoose';
+import { Schema, model, Types } from 'mongoose';
 import { validateDate, formattedNow } from '../utils';
 
 interface Post {
@@ -44,8 +44,8 @@ const postSchema = new Schema<Post>({
     default: null,
     validate: [validateDate, 'Please enter a valid date (ISO 8601 without milliseconds).']
   }
-})
+});
 
-const Post = model<Post>("Post", postSchema);
+const Post = model<Post>('Post', postSchema);
 
 export = Post

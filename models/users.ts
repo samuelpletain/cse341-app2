@@ -1,8 +1,8 @@
-import mongoose, { Schema, model, Types } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
 interface User {
-  username: String,
-  googleId: String
+  username: string,
+  googleId: string
 }
 
 const userSchema = new Schema<User>({
@@ -14,8 +14,8 @@ const userSchema = new Schema<User>({
     type: String,
     required: true
   }
-})
+});
 
-const User = model<User>("User", userSchema);
+const User = model<User>('User', userSchema);
 
 export = User

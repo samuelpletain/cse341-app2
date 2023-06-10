@@ -47,7 +47,7 @@ const getPostById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             /* #swagger.responses[400] = {
                   description: 'An invalid MongoDB ObjectId was provided.'
           } */
-            res.status(400).json("Please provide a valid post id.");
+            res.status(400).json('Please provide a valid post id.');
             return;
         }
         const post = yield posts_1.default.findOne(id);
@@ -65,6 +65,11 @@ const getPostById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 const createPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    /* #swagger.security = [{
+              "oAuthSample": [
+                  "https://www.googleapis.com/auth/userinfo.profile",
+              ]
+          }] */
     // #swagger.summary = "This endpoint creates a post."
     /*  #swagger.parameters['newPost'] = {
                   in: 'body',
@@ -80,7 +85,7 @@ const createPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const post = new posts_1.default({
             content: req.body.content,
-            authorId: req.body.authorId,
+            authorId: req.body.authorId
         });
         if (req.body.tags) {
             Object.assign(post, { tags: req.body.tags });
@@ -113,6 +118,11 @@ const createPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 const deletePostById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    /* #swagger.security = [{
+              "oAuthSample": [
+                  "https://www.googleapis.com/auth/userinfo.profile",
+              ]
+          }] */
     // #swagger.summary = "This endpoint deletes a single post."
     /*  #swagger.parameters['postId'] = {
                   in: 'path',
@@ -128,7 +138,7 @@ const deletePostById = (req, res) => __awaiter(void 0, void 0, void 0, function*
             /* #swagger.responses[400] = {
                   description: 'An invalid MongoDB ObjectId was provided.'
           } */
-            res.status(400).json("Please provide a valid post id.");
+            res.status(400).json('Please provide a valid post id.');
             return;
         }
         yield posts_1.default.deleteOne(id);
@@ -145,6 +155,11 @@ const deletePostById = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 const updatePostById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    /* #swagger.security = [{
+              "oAuthSample": [
+                  "https://www.googleapis.com/auth/userinfo.profile",
+              ]
+          }] */
     // #swagger.summary = "This endpoint updates the content of a single post."
     /*  #swagger.parameters['postId'] = {
                   in: 'path',
@@ -160,7 +175,7 @@ const updatePostById = (req, res) => __awaiter(void 0, void 0, void 0, function*
     try {
         const post = {
             content: req.body.content,
-            authorId: req.body.authorId,
+            authorId: req.body.authorId
         };
         if (req.body.tags) {
             Object.assign(post, { tags: req.body.tags });
@@ -185,7 +200,7 @@ const updatePostById = (req, res) => __awaiter(void 0, void 0, void 0, function*
             /* #swagger.responses[400] = {
                   description: 'An invalid MongoDB ObjectId was provided.'
           } */
-            res.status(400).json("Please provide a valid post id.");
+            res.status(400).json('Please provide a valid post id.');
             return;
         }
         yield posts_1.default.replaceOne({ _id: id }, post, { runValidators: true }).catch((err) => {

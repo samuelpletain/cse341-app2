@@ -24,8 +24,8 @@ const authorSchema = new mongoose_1.Schema({
         type: String,
         trim: true,
         default: utils_1.formattedNow,
-        validate: [utils_1.validateDate, 'Please enter a valid date (ISO 8601 without milliseconds).'],
+        validate: [utils_1.validateDate, 'Please enter a valid date (ISO 8601 without milliseconds).']
     }
 });
-const Author = (0, mongoose_1.model)("Author", authorSchema);
+const Author = (0, mongoose_1.model)('Author', authorSchema);
 module.exports = Author;

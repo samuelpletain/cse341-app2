@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
-import { ObjectId } from "mongodb";
-import Post from "../models/posts";
+import { Request, Response } from 'express';
+import { ObjectId } from 'mongodb';
+import Post from '../models/posts';
 
 const getAllPosts = async (req: Request, res: Response) => {
   // #swagger.summary = "This endpoint returns a list of all the posts in the database."
@@ -34,7 +34,7 @@ const getPostById = async (req: Request, res: Response) => {
       /* #swagger.responses[400] = {
             description: 'An invalid MongoDB ObjectId was provided.'
     } */
-      res.status(400).json("Please provide a valid post id.");
+      res.status(400).json('Please provide a valid post id.');
       return;
     }
     const post = await Post.findOne(id) as Post;
@@ -52,6 +52,11 @@ const getPostById = async (req: Request, res: Response) => {
 };
 
 const createPost = async (req: Request, res: Response) => {
+  /* #swagger.security = [{
+            "oAuthSample": [
+                "https://www.googleapis.com/auth/userinfo.profile",
+            ]
+        }] */
   // #swagger.summary = "This endpoint creates a post."
   /*  #swagger.parameters['newPost'] = {
                 in: 'body',
@@ -67,13 +72,13 @@ const createPost = async (req: Request, res: Response) => {
   try {
     const post = new Post({
       content: req.body.content,
-      authorId: req.body.authorId,
-    })
+      authorId: req.body.authorId
+    });
     if (req.body.tags) {
       Object.assign(post, { tags: req.body.tags });
     }
     if (req.body.replyTo) {
-      Object.assign(post, { replyTo: req.body.replyTo })
+      Object.assign(post, { replyTo: req.body.replyTo });
     }
     const newPost = await post.save().catch((err: Error) => {
       /* #swagger.responses[422] = {
@@ -81,7 +86,7 @@ const createPost = async (req: Request, res: Response) => {
     } */
       res.status(422).json({
         error: err.message
-      })
+      });
     });
     /* #swagger.responses[201] = {
             description: 'Returns an object containing the result of the request and a string representing a MongoDB ObjectId.',
@@ -97,9 +102,14 @@ const createPost = async (req: Request, res: Response) => {
     } */
     res.status(500).json(err);
   }
-}
+};
 
 const deletePostById = async (req: Request, res: Response) => {
+  /* #swagger.security = [{
+            "oAuthSample": [
+                "https://www.googleapis.com/auth/userinfo.profile",
+            ]
+        }] */
   // #swagger.summary = "This endpoint deletes a single post."
   /*  #swagger.parameters['postId'] = {
                 in: 'path',
@@ -114,7 +124,7 @@ const deletePostById = async (req: Request, res: Response) => {
       /* #swagger.responses[400] = {
             description: 'An invalid MongoDB ObjectId was provided.'
     } */
-      res.status(400).json("Please provide a valid post id.");
+      res.status(400).json('Please provide a valid post id.');
       return;
     }
     await Post.deleteOne(id);
@@ -131,6 +141,11 @@ const deletePostById = async (req: Request, res: Response) => {
 };
 
 const updatePostById = async (req: Request, res: Response) => {
+  /* #swagger.security = [{
+            "oAuthSample": [
+                "https://www.googleapis.com/auth/userinfo.profile",
+            ]
+        }] */
   // #swagger.summary = "This endpoint updates the content of a single post."
   /*  #swagger.parameters['postId'] = {
                 in: 'path',
@@ -146,8 +161,8 @@ const updatePostById = async (req: Request, res: Response) => {
   try {
     const post = {
       content: req.body.content,
-      authorId: req.body.authorId,
-    }
+      authorId: req.body.authorId
+    };
     if (req.body.tags) {
       Object.assign(post, { tags: req.body.tags });
     }
@@ -155,13 +170,13 @@ const updatePostById = async (req: Request, res: Response) => {
       Object.assign(post, { likes: req.body.likes });
     }
     if (req.body.replyTo) {
-      Object.assign(post, { replyTo: req.body.replyTo })
+      Object.assign(post, { replyTo: req.body.replyTo });
     }
     if (req.body.createdOn) {
-      Object.assign(post, { createdOn: req.body.createdOn })
+      Object.assign(post, { createdOn: req.body.createdOn });
     }
     if (req.body.editedAt) {
-      Object.assign(post, { editedAt: req.body.editedAt })
+      Object.assign(post, { editedAt: req.body.editedAt });
     }
     let id: ObjectId;
     try {
@@ -170,7 +185,7 @@ const updatePostById = async (req: Request, res: Response) => {
       /* #swagger.responses[400] = {
             description: 'An invalid MongoDB ObjectId was provided.'
     } */
-      res.status(400).json("Please provide a valid post id.");
+      res.status(400).json('Please provide a valid post id.');
       return;
     }
     await Post.replaceOne({ _id: id }, post, { runValidators: true }).catch((err: Error) => {
@@ -179,7 +194,7 @@ const updatePostById = async (req: Request, res: Response) => {
     } */
       res.status(422).json({
         error: err.message
-      })
+      });
     });
     /* #swagger.responses[204] = {
                 description: 'The specified post has been edited.',
@@ -199,4 +214,4 @@ module.exports = {
   createPost,
   deletePostById,
   updatePostById
-}
+};
