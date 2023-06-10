@@ -17,7 +17,7 @@ passport.deserializeUser(async (id: string, done: DoneCallback) => {
 });
 
 passport.use('google', new GoogleStrategy({
-  callbackURL: '/auth/google/redirect',
+  callbackURL: 'https://cse341-app2.onrender.com/auth/google/redirect',
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   scope: ['profile'],
