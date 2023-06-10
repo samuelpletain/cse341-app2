@@ -20,7 +20,8 @@ passport.use('google', new GoogleStrategy({
   callbackURL: '/auth/google/redirect',
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  scope: ['profile']
+  scope: ['profile'],
+  proxy: true
 }, async (accessToken: string, refreshToken: string, profile: Profile, done: DoneCallback) => {
   let currentUser = await User.findOne({
     googleId: profile.id
